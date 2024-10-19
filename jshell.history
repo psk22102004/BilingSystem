@@ -1,0 +1,2 @@
+VAR#>jar cfm BillingSysSwing.jar MANIFEST.MF -C bin/ .
+VAR#>jar cfm ; BillingSysSwing.jar MANIFEST.MF -C bin/
