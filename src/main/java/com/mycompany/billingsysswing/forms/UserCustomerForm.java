@@ -14,7 +14,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CustomerForm extends JFrame {
+public class UserCustomerForm extends JFrame {
     private JTextField nameField;
     private JTextField emailField;
     private JTextField phoneField;
@@ -23,14 +23,13 @@ public class CustomerForm extends JFrame {
     private JTextField statusField; // New field for status
     private JTextField loyaltyPointsField; // New field for loyalty points
     private JButton saveButton;
-    private JButton deleteButton;
     private JButton clearButton;
     private JTable customerTable;
     private DefaultTableModel tableModel;
     private CustomerDAO customerDAO;
 
-    public CustomerForm() {
-        setTitle("Customer Form");
+    public UserCustomerForm() {
+        setTitle("User Customer Form");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1200, 600);
         setLayout(new BorderLayout());
@@ -44,9 +43,7 @@ public class CustomerForm extends JFrame {
         customerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting() && customerTable.getSelectedRow() != -1) {
-                    loadSelectedCustomer();
-                }
+                // No action needed on selection change, as updating is disabled.
             }
         });
 
@@ -91,10 +88,6 @@ public class CustomerForm extends JFrame {
         saveButton.addActionListener(e -> saveCustomer());
         inputPanel.add(saveButton);
 
-        deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(e -> deleteCustomer());
-        inputPanel.add(deleteButton);
-
         clearButton = new JButton("Clear");
         clearButton.addActionListener(e -> clearFields());
         inputPanel.add(clearButton);
@@ -105,48 +98,27 @@ public class CustomerForm extends JFrame {
     }
 
     private void loadCustomers() {
-        try {
-            List<Customer> customers = customerDAO.listCustomers();
-            for (Customer customer : customers) {
-                Object[] row = {
-                    customer.getCustomerId(),
-                    customer.getName(),
-                    customer.getEmail(),
-                    customer.getPhone(),
-                    customer.getAddress(),
-                    customer.getDob(), // Add DOB to row
-                    customer.getStatus(), // Add status to row
-                    customer.getLoyaltyPoints() // Add loyalty points to row
-                };
-                tableModel.addRow(row);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error loading customers.");
+    try {
+        List<Customer> customers = customerDAO.listCustomers();  // Assuming this fetches customer IDs correctly
+        for (Customer customer : customers) {
+            Object[] row = {
+                customer.getCustomerId(),  // Ensure this returns the ID
+                customer.getName(),
+                customer.getEmail(),
+                customer.getPhone(),
+                customer.getAddress(),
+                customer.getDob(),  // Add DOB to row
+                customer.getStatus(),  // Add status to row
+                customer.getLoyaltyPoints()  // Add loyalty points to row
+            };
+            tableModel.addRow(row);  // Adds the row to the table, including the Customer ID
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error loading customers.");
     }
+}
 
-    private void loadSelectedCustomer() {
-        int selectedRow = customerTable.getSelectedRow();
-        if (selectedRow != -1) {
-            int customerId = (int) tableModel.getValueAt(selectedRow, 0);
-            try {
-                Customer customer = customerDAO.getCustomer(customerId);
-                if (customer != null) {
-                    nameField.setText(customer.getName());
-                    emailField.setText(customer.getEmail());
-                    phoneField.setText(customer.getPhone());
-                    addressField.setText(customer.getAddress());
-                    dobField.setText(customer.getDob().toString()); // Set DOB field
-                    statusField.setText(customer.getStatus()); // Set status field
-                    loyaltyPointsField.setText(String.valueOf(customer.getLoyaltyPoints())); // Set loyalty points
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error loading customer details.");
-            }
-        }
-    }
 
     private void clearFields() {
         nameField.setText("");
@@ -175,23 +147,14 @@ public class CustomerForm extends JFrame {
 
         Customer customer = new Customer(name, email, phone, address, dob, status, loyaltyPoints);
         try {
-            if (customerTable.getSelectedRow() == -1) {
-                int id = customerDAO.addCustomer(customer);
-                if (id != -1) {
-                    JOptionPane.showMessageDialog(this, "Customer added successfully.");
-                    Object[] row = {id, name, email, phone, address, dob, status, loyaltyPoints};
-                    tableModel.addRow(row);
-                    clearFields();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Error adding customer.");
-                }
-            } else {
-                int customerId = (int) tableModel.getValueAt(customerTable.getSelectedRow(), 0);
-                customer.setCustomerId(customerId);
-                customerDAO.updateCustomer(customer);
-                JOptionPane.showMessageDialog(this, "Customer updated successfully.");
-                updateTableRow(customerId, customer);
+            int id = customerDAO.addCustomer(customer);
+            if (id != -1) {
+                JOptionPane.showMessageDialog(this, "Customer added successfully.");
+                Object[] row = {id, name, email, phone, address, dob, status, loyaltyPoints};
+                tableModel.addRow(row);
                 clearFields();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error adding customer.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -199,40 +162,7 @@ public class CustomerForm extends JFrame {
         }
     }
 
-    private void updateTableRow(int customerId, Customer customer) {
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            if (tableModel.getValueAt(i, 0).equals(customerId)) {
-                tableModel.setValueAt(customer.getName(), i, 1);
-                tableModel.setValueAt(customer.getEmail(), i, 2);
-                tableModel.setValueAt(customer.getPhone(), i, 3);
-                tableModel.setValueAt(customer.getAddress(), i, 4);
-                tableModel.setValueAt(customer.getDob(), i, 5); // Update DOB
-                tableModel.setValueAt(customer.getStatus(), i, 6); // Update status
-                tableModel.setValueAt(customer.getLoyaltyPoints(), i, 7); // Update loyalty points
-                break;
-            }
-        }
-    }
-
-    private void deleteCustomer() {
-        int selectedRow = customerTable.getSelectedRow();
-        if (selectedRow != -1) {
-            int customerId = (int) tableModel.getValueAt(selectedRow, 0);
-            try {
-                customerDAO.deleteCustomer(customerId);
-                JOptionPane.showMessageDialog(this, "Customer deleted successfully.");
-                tableModel.removeRow(selectedRow);
-                clearFields();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error deleting customer.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "No customer selected.");
-        }
-    }
-
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(CustomerForm::new);
+        SwingUtilities.invokeLater(UserCustomerForm::new);
     }
 }

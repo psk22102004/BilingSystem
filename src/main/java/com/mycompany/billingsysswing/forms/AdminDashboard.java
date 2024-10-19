@@ -45,7 +45,7 @@ public class AdminDashboard extends JFrame {
         manageProductsButton = new JButton("Manage Products");
         manageCustomersButton = new JButton("Manage Customers");
         manageBillItemsButton = new JButton("Manage Bill Items");
-        viewBillItemsButton = new JButton("View Bill Items"); // Button for Bill List View
+        viewBillItemsButton = new JButton("View Bills"); // Button for Bill List View
         manageUsersButton = new JButton("Manage Users"); // New button for User Management
 
         // Set font and background color for buttons
@@ -63,7 +63,7 @@ public class AdminDashboard extends JFrame {
         manageProductsButton.addActionListener(e -> manageProducts());
         manageCustomersButton.addActionListener(e -> manageCustomers());
         manageBillItemsButton.addActionListener(e -> manageBillItems());
-        viewBillItemsButton.addActionListener(e -> viewBillItems());
+        viewBillItemsButton.addActionListener(e -> viewBills());
         manageUsersButton.addActionListener(e -> manageUsers()); // Action listener for User Management
     }
 
@@ -157,31 +157,31 @@ public class AdminDashboard extends JFrame {
     }
 
     private void manageBillItems() {
-//        SwingUtilities.invokeLater(() -> {
-//            BillItemForm billItemForm = new BillItemForm();
-//            billItemForm.setVisible(true); // Open BillItemForm
-//            billItemForm.addWindowListener(new WindowAdapter() {
-//                @Override
-//                public void windowClosing(WindowEvent e) {
-//                    AdminDashboard.this.setVisible(true); // Show dashboard again
-//                }
-//            });
-//            this.setVisible(false); // Hide the dashboard
-//        });
+        SwingUtilities.invokeLater(() -> {
+            BillItemForm billItemForm = new BillItemForm();
+            billItemForm.setVisible(true); // Open BillItemForm
+            billItemForm.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    AdminDashboard.this.setVisible(true); // Show dashboard again
+                }
+            });
+            this.setVisible(false); // Hide the dashboard
+        });
     }
 
-    private void viewBillItems() {
-//        SwingUtilities.invokeLater(() -> {
-//            BillListView billListView = new BillListView();
-//            billListView.setVisible(true); // Open BillListView
-//            billListView.addWindowListener(new WindowAdapter() {
-//                @Override
-//                public void windowClosing(WindowEvent e) {
-//                    AdminDashboard.this.setVisible(true); // Show dashboard again
-//                }
-//            });
-//            this.setVisible(false); // Hide the dashboard
-//        });
+    private void viewBills() {
+        SwingUtilities.invokeLater(() -> {
+            BillListView billListView = new BillListView();
+            billListView.setVisible(true); // Open BillListView
+            billListView.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    AdminDashboard.this.setVisible(true); // Show dashboard again
+                }
+            });
+            this.setVisible(false); // Hide the dashboard
+        });
     }
 
     private void manageUsers() {

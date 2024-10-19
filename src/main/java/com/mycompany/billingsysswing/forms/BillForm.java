@@ -30,7 +30,7 @@ public class BillForm extends JFrame {
 
     public BillForm() {
         setTitle("Bill Form");
-        setSize(800, 600);
+        setSize(1200, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         billDAO = new BillDAO();
@@ -51,40 +51,93 @@ public class BillForm extends JFrame {
         // Add table to the frame
         add(new JScrollPane(billTable), BorderLayout.CENTER);
 
-        // Separator Line
-        JSeparator separator = new JSeparator();
-        add(separator, BorderLayout.SOUTH);
+        // Panel for input fields and buttons (arranged using GridBagLayout)
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Panel for input fields and buttons
-        JPanel inputPanel = new JPanel(new GridLayout(7, 2, 10, 10)); // Adjusted rows for new fields
-        inputPanel.add(new JLabel("Bill Date (YYYY-MM-DD):"));
-        inputPanel.add(billDateField);
-        inputPanel.add(new JLabel("Customer ID:"));
-        inputPanel.add(customerIdField);
-        inputPanel.add(new JLabel("Total Amount:"));
-        inputPanel.add(totalAmountField);
-        inputPanel.add(new JLabel("GST Amount:")); // New label for GST
-        inputPanel.add(gstAmountField); // New field for GST input
-        inputPanel.add(new JLabel("Discount Amount:")); // New label for discount
-        inputPanel.add(discountAmountField); // New field for discount input
-        inputPanel.add(new JLabel("Status:")); // New label for status
-        inputPanel.add(statusField); // New field for status input
-        inputPanel.add(addButton);
-        inputPanel.add(updateButton);
-        inputPanel.add(deleteButton);
-        inputPanel.add(listButton);
+        // Adding labels and fields in a 3-column layout
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        formPanel.add(new JLabel("Bill Date (YYYY-MM-DD):"), gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        formPanel.add(billDateField, gbc);
 
-        // Add input panel at the bottom
-        add(inputPanel, BorderLayout.SOUTH);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        formPanel.add(new JLabel("Customer ID:"), gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        formPanel.add(customerIdField, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        formPanel.add(new JLabel("Total Amount:"), gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        formPanel.add(totalAmountField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        formPanel.add(new JLabel("GST Amount:"), gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        formPanel.add(gstAmountField, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        formPanel.add(new JLabel("Discount Amount:"), gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        formPanel.add(discountAmountField, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        formPanel.add(new JLabel("Status:"), gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        formPanel.add(statusField, gbc);
+
+        // Place buttons below the form fields
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(addButton);
+        buttonPanel.add(updateButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(listButton);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 3;
+        gbc.anchor = GridBagConstraints.CENTER;
+        formPanel.add(buttonPanel, gbc);
+
+        // Add formPanel at the bottom of the BorderLayout
+        add(formPanel, BorderLayout.SOUTH);
     }
 
     private void createUIComponents() {
+        // Define the preferred size for the text fields
+        Dimension fieldSize = new Dimension(200, 30);
+
         billDateField = new JTextField();
+        billDateField.setPreferredSize(fieldSize);
+
         customerIdField = new JTextField();
+        customerIdField.setPreferredSize(fieldSize);
+
         totalAmountField = new JTextField();
-        gstAmountField = new JTextField(); // Initialize GST field
-        discountAmountField = new JTextField(); // Initialize discount field
-        statusField = new JTextField(); // Initialize status field
+        totalAmountField.setPreferredSize(fieldSize);
+
+        gstAmountField = new JTextField();
+        gstAmountField.setPreferredSize(fieldSize);
+
+        discountAmountField = new JTextField();
+        discountAmountField.setPreferredSize(fieldSize);
+
+        statusField = new JTextField();
+        statusField.setPreferredSize(fieldSize);
 
         addButton = new JButton("Add Bill");
         updateButton = new JButton("Update Bill");
@@ -116,9 +169,9 @@ public class BillForm extends JFrame {
                         bill.getBillDate(),
                         bill.getCustomerId(),
                         bill.getTotalAmount(),
-                        bill.getGstAmount(), // Add GST amount to the table
-                        bill.getDiscountAmount(), // Add discount amount to the table
-                        bill.getStatus() // Add bill status to the table
+                        bill.getGstAmount(),
+                        bill.getDiscountAmount(),
+                        bill.getStatus()
                 });
             }
         } catch (SQLException ex) {
@@ -131,9 +184,9 @@ public class BillForm extends JFrame {
             LocalDate billDate = LocalDate.parse(billDateField.getText());
             int customerId = Integer.parseInt(customerIdField.getText());
             BigDecimal totalAmount = new BigDecimal(totalAmountField.getText());
-            BigDecimal gstAmount = new BigDecimal(gstAmountField.getText()); // Get GST amount
-            BigDecimal discountAmount = new BigDecimal(discountAmountField.getText()); // Get discount amount
-            String status = statusField.getText(); // Get status
+            BigDecimal gstAmount = new BigDecimal(gstAmountField.getText());
+            BigDecimal discountAmount = new BigDecimal(discountAmountField.getText());
+            String status = statusField.getText();
 
             Bill bill = new Bill(0, billDate, customerId, totalAmount, gstAmount, discountAmount, status);
             int billId = billDAO.addBill(bill);
@@ -143,14 +196,14 @@ public class BillForm extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to add bill.");
             }
-        } catch (HeadlessException | NumberFormatException | SQLException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
     }
 
     private void updateBill() {
-        // Implementation for updating a bill can go here.
-        // It would be similar to addBill but would include finding the bill by ID.
+        // Implementation for updating a bill can go here
+        // Similar to addBill but with updating the existing bill
     }
 
     private void deleteBill() {
@@ -159,15 +212,13 @@ public class BillForm extends JFrame {
             billDAO.deleteBill(billId);
             JOptionPane.showMessageDialog(this, "Bill deleted successfully!");
             loadBills(); // Refresh table
-        } catch (HeadlessException | NumberFormatException | SQLException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
     }
 
     private void listBills() {
-        // The table view now acts as the list of bills.
-        // You may choose to keep this method for additional functionalities in the future.
-        loadBills();
+        loadBills(); // The table view acts as the list of bills
     }
 
     public static void main(String[] args) {
