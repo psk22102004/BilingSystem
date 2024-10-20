@@ -1,6 +1,5 @@
 # **Billing System**
 
----
 
 ## Database Schemas:
 
