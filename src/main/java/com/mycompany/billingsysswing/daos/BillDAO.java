@@ -9,7 +9,7 @@ import java.util.List;
 public class BillDAO {
     private final String jdbcURL = "jdbc:mysql://localhost:3306/BillManagement";
     private final String jdbcUsername = "root"; // your DB username
-    private final String jdbcPassword = "parthkadam22"; // your DB password
+    private final String jdbcPassword = "thinkpad"; // your DB password
 
     // Establishes a connection to the database
     private Connection getConnection() throws SQLException {

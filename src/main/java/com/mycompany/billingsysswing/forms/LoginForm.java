@@ -46,13 +46,13 @@ public class LoginForm extends JFrame {
         
         loginButton = new JButton("Login");
         loginButton.setBackground(new Color(40, 233, 140)); 
-        loginButton.setForeground(Color.WHITE);
+        loginButton.setForeground(Color.BLACK);
         loginButton.setFont(buttonFont);
         loginButton.setPreferredSize(new Dimension(BUTTON_WIDTH, 40)); 
         
         registerButton = new JButton("Register"); 
         registerButton.setBackground(new Color(0, 123, 255)); 
-        registerButton.setForeground(Color.WHITE);
+        registerButton.setForeground(Color.BLACK);
         registerButton.setFont(buttonFont);
         registerButton.setPreferredSize(new Dimension(BUTTON_WIDTH, 40)); 
 
