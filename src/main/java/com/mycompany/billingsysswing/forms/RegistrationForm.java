@@ -52,13 +52,13 @@ public class RegistrationForm extends JFrame {
         // Create buttons with colors and larger sizes
         registerButton = new JButton("Register");
         registerButton.setBackground(new Color(40, 233, 140)); // Bright green
-        registerButton.setForeground(Color.WHITE);
+        registerButton.setForeground(Color.BLACK);
         registerButton.setFont(buttonFont);
         registerButton.setPreferredSize(new Dimension(BUTTON_WIDTH, 40)); // Set button size
 
         loginButton = new JButton("Login"); // New Login button
         loginButton.setBackground(new Color(40, 140, 233)); // Bright blue
-        loginButton.setForeground(Color.WHITE);
+        loginButton.setForeground(Color.BLACK);
         loginButton.setFont(buttonFont);
         loginButton.setPreferredSize(new Dimension(BUTTON_WIDTH, 40)); // Set button size
 
