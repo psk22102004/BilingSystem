@@ -23,4 +23,29 @@
         <exec.mainClass>com.mycompany.billingsysswing.BillingSysSwing</exec.mainClass>
     </properties>
     
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>deploy-artifact</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/your-artifact.jar</file>
+                            <repositoryId>your-repo-id</repositoryId>
+                            <url>http://your-repo-url</url>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    
 </project>
