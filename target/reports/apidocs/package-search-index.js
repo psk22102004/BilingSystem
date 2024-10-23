@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.mycompany.billingsysswing"},{"l":"com.mycompany.billingsysswing.daos"},{"l":"com.mycompany.billingsysswing.forms"},{"l":"com.mycompany.billingsysswing.models"},{"l":"com.mycompany.billingsysswing.utils"}];updateSearchResults();
