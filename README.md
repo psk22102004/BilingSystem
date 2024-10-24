@@ -18,7 +18,7 @@
    CREATE DATABASE BillManagement;
    ```
 3. Insert tables to your database from the below database schemas.
-4. Add the sample data provided in `sampleData.sql` file. Add prefered users to the users table. Use branch `Aditya` for the sampleData and triggers to add to your database.
+4. Add the sample data provided in `Sample Data.sql` file. Add prefered users to the users table. Use branch `Aditya` for the sampleData and triggers to add to your database.
 5. Open Netbeans IDE and open this project.
 6. Go to `src/main/java/com/mycompany/billingsysswing/daos` and in **each** file, change the below fields
 
