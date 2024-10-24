@@ -1,10 +1,11 @@
 # **Billing System**
 
 ## Dependencies: 
-=**[JDK](https://www.oracle.com/pk/java/technologies/downloads/)**
-**MySQL**
--**JDBC** 
--**Netbeans IDE**
+
+- **[JDK](https://www.oracle.com/pk/java/technologies/downloads/)**
+- **MySQL**
+- **JDBC** 
+- **Netbeans IDE**
 
 ---
 
