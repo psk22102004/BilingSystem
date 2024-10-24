@@ -1,5 +1,32 @@
 # **Billing System**
 
+## Dependencies: 
+-**[JDK](https://www.oracle.com/pk/java/technologies/downloads/)**
+-**MySQL**
+-**JDBC** 
+-**Netbeans IDE**
+
+---
+
+## How to run:
+
+1. Download and Install the Dependencies
+2. Create database localhost to your selected user (eg. root), and create database **BillManagement**.
+
+   ```sql
+   CREATE DATABASE BillManagement;
+   ```
+3. Insert tables to your database from the below database schemas.
+4. Add the sample data provided in `sampleData.sql` file. Add prefered users to the users table.
+5. Open Netbeans IDE and open this project.
+6. Go to `src/main/java/com/mycompany/billingsysswing/daos` and in **each** file, change the below fields
+
+   ```java
+   private final String jdbcUsername = "root"; // your DB username
+   private final String jdbcPassword = "thinkpad"; // your DB password
+   ```
+   to your credentials of your mysql server.
+7. After completing the above steps, click run.
 
 ## Database Schemas:
 
